@@ -22,17 +22,3 @@ class VocabApp extends StatelessWidget {
         );
     }
 }
-
-/*
-ListView.builder(
-                itemCount: words.length,
-                itemBuilder: (context, index) {
-                    final word = words[index];
-                    return ListTile(
-                        title: Text(word.term),
-                        subtitle: Text(word.meaning),
-                        onLongPress: () => _removeWord(index)
-                    );
-                }
-            ),
-*/

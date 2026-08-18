@@ -7,7 +7,7 @@ class WordListNotifier extends AsyncNotifier<List<Word>> {
 
   @override
   Future<List<Word>> build() async {
-    //Se quiser que 1 ] venha lista vazia, apaga tudo e SÓ deixa a linha debaixo descomentada.
+    //Se quiser que venha lista vazia, apaga tudo do build() e deixa SÓ a linha debaixo descomentada.
     //return _repository.loadWords();
     final saved = await _repository.loadWords();
     
@@ -33,27 +33,6 @@ class WordListNotifier extends AsyncNotifier<List<Word>> {
     }
     return saved;
   }
-
-  // @override
-  // List<Word> build(){
-  //   return [
-  //     const Word(
-  //       term: 'ephemeral',
-  //       meaning: 'lasting a very short time',
-  //       example: 'Fame is often ephemeral.'
-  //     ),
-  //     const Word(
-  //       term: 'serendipity',
-  //       meaning: 'a pleasant surprise found by chance',
-  //       example: 'Meeting her was pure serendipity.'
-  //     ),
-  //     const Word(
-  //       term: 'petrichor',
-  //       meaning: 'the smell of earth after rain',
-  //       example: 'The petrichor filled the air.'
-  //     ),
-  //   ];
-  // }
 
   Future<void> addWord(Word word) async{
     final currentWords = state.value ?? [];
