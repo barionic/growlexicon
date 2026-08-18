@@ -10,7 +10,7 @@ void main (){
   SharedPreferences.setMockInitialValues({});
 
   //addWord
-  test('addWord adiciona uma palavra ao estado', () async {
+  test('addWord - adiciona uma palavra ao estado', () async {
     //Arrange - prepara o cenário 
     final container = ProviderContainer();
     addTearDown(container.dispose);
@@ -32,7 +32,7 @@ void main (){
   });
 
   //removeWord
-  test('removeWord retira uma palavra do estado', () async {
+  test('removeWord - remove uma palavra do estado', () async {
     //Arrange - prepara o cenário 
     final container = ProviderContainer();
     addTearDown(container.dispose);
