@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:growlexicon/providers/word_list_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/word_list_provider.dart';
 import '../models/word.dart';
-//import '../repositories/word_repository.dart';
+import '../widgets/word_text_field.dart';
 
 class WordListScreen extends ConsumerStatefulWidget{
   const WordListScreen({super.key});
@@ -98,24 +98,13 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-                controller: _termController,
-                decoration: const InputDecoration(
-                    labelText: 'Brave New Word'
-                ),
-            ),
+          WordTextField(
+            controller: _termController, 
+            label: 'Brave New Word',
           ),
-          //TODO: transformar os dois paddings em um widget só WordTextFiel(controller, label)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-              controller: _meaningController,
-              decoration: const InputDecoration(
-                labelText: 'Brave New Meaning'
-              ),
-            ),
+          WordTextField(
+            controller: _meaningController, 
+            label: 'Brave New Meaning'
           ),
           Expanded(
             child: wordsAsync.when(
