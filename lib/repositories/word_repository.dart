@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'sqlite_word_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/word.dart';
 
@@ -24,5 +25,5 @@ class WordRepository {
 }
 
 final wordRepositoryProvider = Provider<WordRepository>((ref){
-  return WordRepository();
+  return SqliteWordRepository();
 });
