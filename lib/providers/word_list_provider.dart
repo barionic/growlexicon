@@ -3,15 +3,14 @@ import '../models/word.dart';
 import '../repositories/word_repository.dart';
 
 class WordListNotifier extends AsyncNotifier<List<Word>> {
-  final WordRepository _repository = WordRepository();
 
   @override
   Future<List<Word>> build() async {
-    //Se quiser que venha lista vazia, apaga tudo do build() e deixa SÓ a linha debaixo descomentada.
-    //return _repository.loadWords();
-    final saved = await _repository.loadWords();
+    final repository = ref.read(wordRepositoryProvider);
+   
+    final saved = await repository.loadWords();
     
-    //Se for 1º caso de uso:
+    //Exemplos para 1º caso de uso:
     if (saved.isEmpty){
       return [
         const Word(
@@ -35,20 +34,22 @@ class WordListNotifier extends AsyncNotifier<List<Word>> {
   }
 
   Future<void> addWord(Word word) async{
+    final repository = ref.read(wordRepositoryProvider);
     final currentWords = state.value ?? [];
     final newWords = [...currentWords, word];
     state = AsyncData(newWords);
-    await _repository.saveWords(newWords);
+    await repository.saveWords(newWords);
   }
 
   Future<void> removeWord(int index) async{
+    final repository = ref.read(wordRepositoryProvider);
     final currentWords = state.value ?? [];
     final newWords = [
       for(int i=0; i<currentWords.length; i++)
         if (i != index) currentWords[i],
     ];
     state = AsyncData(newWords);
-    await _repository.saveWords(newWords);
+    await repository.saveWords(newWords);
   }
 
 }
