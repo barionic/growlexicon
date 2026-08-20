@@ -3,13 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:growlexicon/providers/word_list_provider.dart';
 import 'package:growlexicon/models/word.dart';
 import 'package:growlexicon/repositories/word_repository.dart';
+import 'package:growlexicon/repositories/repository_providers.dart';
 
-class FakeWordRespository implements WordRepository{
+class FakeWordRepository implements WordRepository{
   List<Word> _words = [];
 
   @override
   Future<List<Word>> loadWords() async => _words;
   
+  @override
   Future<void> saveWords(List<Word> words) async {
     _words = words;
   }
@@ -20,7 +22,7 @@ void main (){
     //Arrange - prepara o cenário 
     final container = ProviderContainer(
       overrides: [
-        wordRepositoryProvider.overrideWithValue(FakeWordRespository()),
+        wordRepositoryProvider.overrideWithValue(FakeWordRepository()),
       ],
     );
     addTearDown(container.dispose);
@@ -45,7 +47,7 @@ void main (){
     //Arrange - prepara o cenário 
     final container = ProviderContainer(
       overrides: [
-        wordRepositoryProvider.overrideWithValue(FakeWordRespository()),
+        wordRepositoryProvider.overrideWithValue(FakeWordRepository()),
       ],
     );
     addTearDown(container.dispose);

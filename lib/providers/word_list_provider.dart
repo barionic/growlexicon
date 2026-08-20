@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/word.dart';
-import '../repositories/word_repository.dart';
+import '../repositories/repository_providers.dart';
 
 class WordListNotifier extends AsyncNotifier<List<Word>> {
 
