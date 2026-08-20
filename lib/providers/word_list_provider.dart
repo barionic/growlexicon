@@ -35,23 +35,20 @@ class WordListNotifier extends AsyncNotifier<List<Word>> {
 
   Future<void> addWord(Word word) async{
     final repository = ref.read(wordRepositoryProvider);
+    final wordWithId = await repository.insertWord(word); //salve e recebe id
     final currentWords = state.value ?? [];
-    final newWords = [...currentWords, word];
-    state = AsyncData(newWords);
-    await repository.saveWords(newWords);
+    state = AsyncData([...currentWords, wordWithId]); //atualiza tela com id certo
+    
   }
 
-  Future<void> removeWord(int index) async{
+  Future<void> removeWord(int id) async{
     final repository = ref.read(wordRepositoryProvider);
+    await repository.deleteWord(id);
     final currentWords = state.value ?? [];
-    final newWords = [
-      for(int i=0; i<currentWords.length; i++)
-        if (i != index) currentWords[i],
-    ];
-    state = AsyncData(newWords);
-    await repository.saveWords(newWords);
+    state = AsyncData(
+      currentWords.where((word) => word.id != id).toList(),
+    );
   }
-
 }
 
 final wordListProvider = AsyncNotifierProvider<WordListNotifier, List<Word>>(WordListNotifier.new);

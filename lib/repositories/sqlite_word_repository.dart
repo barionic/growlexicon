@@ -13,11 +13,20 @@ class SqliteWordRepository implements WordRepository{
   }
 
   @override
-  Future<void> saveWords(List<Word> words) async {
+  Future<Word> insertWord(Word word) async {
     final db = await _dbHelper.database;
-    await db.delete('words');
-    for (final word in words){
-      await db.insert('words', word.toJson());
-    }
+    final id = await db.insert('words', word.toJson());
+    return Word(
+      id: id,
+      term: word.term,
+      meaning: word.meaning,
+      example: word.example,
+    );
+  }
+
+  @override
+  Future<void> deleteWord(int id) async {
+    final db = await _dbHelper.database;
+    await db.delete('words', where: 'id = ?', whereArgs: [id]);
   }
 }

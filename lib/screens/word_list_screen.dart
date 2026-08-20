@@ -76,7 +76,7 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
                   return ListTile(
                     title: Text(word.term),
                     subtitle: Text(word.meaning),
-                    onLongPress: () => _removeWord(index)
+                    onLongPress: () => _removeWord(word.id!)
                   );
                 },
               ),

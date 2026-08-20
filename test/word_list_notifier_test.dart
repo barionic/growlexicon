@@ -12,9 +12,23 @@ class FakeWordRepository implements WordRepository{
   Future<List<Word>> loadWords() async => _words;
   
   @override
-  Future<void> saveWords(List<Word> words) async {
-    _words = words;
+  Future<Word> insertWord(Word word) async {
+    final nextId =_words.isEmpty ? 1 : _words.map((w) => w.id ?? 0).reduce((a, b) => a > b ? a : b) + 1;
+    final wordWithId = Word(
+      id: nextId,
+      term: word.term,
+      meaning: word.meaning,
+      example: word.example
+    );
+    _words = [..._words, wordWithId];
+    return wordWithId;
   }
+
+  @override
+  Future<void> deleteWord(int id) async {
+    _words = _words.where((word) => word.id != id).toList();
+  }
+
 }
 
 void main (){
@@ -33,7 +47,7 @@ void main (){
     final tamanhoInicial = container.read(wordListProvider).value!.length;
 
     //Act - executa a ação
-    notifier.addWord(
+    await notifier.addWord(
       const Word(term: 'test', meaning: 'a trial', example: 'This is a test'),
     );
 
@@ -55,15 +69,17 @@ void main (){
     await container.read(wordListProvider.future);
     final notifier = container.read(wordListProvider.notifier);
 
-    notifier.addWord(
+    await notifier.addWord(
       const Word(term: 'temp', meaning: 'temporary', example: 'A temp word.'),
     );
-    final tamanhoInicial = container.read(wordListProvider).value!.length;
+    final wordsAfterAdd = container.read(wordListProvider).value!;
+    final tamanhoInicial = wordsAfterAdd.length;
+    final idParaRemover= wordsAfterAdd.last.id!;
 
     //Act - executa a ação
-    notifier.removeWord(0);
+    await notifier.removeWord(idParaRemover);
 
-    //Assert - verifica o resultado 
+    //Assert - verifica o resultado
     final tamanhoFinal = container.read(wordListProvider).value!.length;
     expect(tamanhoFinal, tamanhoInicial-1);
 
