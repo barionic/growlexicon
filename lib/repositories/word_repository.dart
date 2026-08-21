@@ -5,6 +5,4 @@ abstract class WordRepository {
 
   Future<Word> insertWord(Word word);
   Future<void> deleteWord(int id);
-
-  //Future<void> saveWords(List<Word> words);  
 }
